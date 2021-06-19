@@ -4,6 +4,6 @@ from .models import Post
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-  list_display = ('id', 'title', 'create_at')
+  list_display = ('id', 'title', 'created_at')
   list_display_links = ('title',)
-  ordering = ('-create_at',)
+  ordering = ('-created_at',)
