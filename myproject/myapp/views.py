@@ -18,6 +18,6 @@ class Index(TemplateView):
     return context
 
 class PostCreate(CreateView):
-    model = Post
-    form_class = PostForm
-    success_url = reverse_lazy('myapp:index')
+  model = Post
+  form_class = PostForm
+  success_url = reverse_lazy('myapp:index')
