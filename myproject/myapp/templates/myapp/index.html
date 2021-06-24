@@ -23,10 +23,9 @@
           <p class="card-text">
             {{ item.content }}
           </p>
+          <a href="{% url 'myapp:post_detail' item.id %}" type="button" class="btn btn-light-blue btn-md">もっと読む</a>
         </div>
-        <div class="card-footer">
-          <small class="text-muted">Last updated 3 mins ago</small>
-        </div>
+
       </div>
     </div>
 
