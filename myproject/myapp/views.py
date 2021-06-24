@@ -26,18 +26,19 @@ class PostDetail(DetailView):
       model = Post
 
 class PostUpdate(UpdateView):
-      model = Post
-      form_class = PostForm
+  model = Post
+  form_class = PostForm
 
-      def get_success_url(self):
-            messages.info(self.request, '投稿内容を更新しました。')
-            return resolve_url('myapp:post_detail', pk=self.kwargs['pk'])
+  def get_success_url(self):
+        messages.info(self.request, '投稿内容を更新しました。')
+        return resolve_url('myapp:post_detail', pk=self.kwargs['pk'])
 
 class PostDelete(DeleteView):
-      model = Post
-      def get_success_url(self):
-          messages.info(self.request, '投稿内容を削除しました')
-          return resolve_url('myapp:index')
+  model = Post
+
+  def get_success_url(self):
+      messages.info(self.request, '投稿内容を削除しました')
+      return resolve_url('myapp:index')
 
 class PostList(ListView):
   model = Post
