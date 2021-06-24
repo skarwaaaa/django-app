@@ -35,7 +35,7 @@
 
   <body>
     
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg text-white bg-primary">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">My Blog</a>
         <button
@@ -65,9 +65,8 @@
               <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
                   aria-haspopup="true" erea-expanded="false">Post</a>
               <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="myapp:post_create">新規投稿</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                  <a class="dropdown-item" href="{% url 'myapp:post_create' %}">新規投稿</a>
+                  <a class="dropdown-item" href="{% url 'myapp:post_list' %}">投稿一覧</a>
               </div>
             </li>
 
