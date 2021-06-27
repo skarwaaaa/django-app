@@ -7,7 +7,14 @@ from .forms import PostForm, LoginForm, SignUpForm
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
+
+class OnlyMyPostMixin(UserPassesTestMixin):
+  raise_exception = True
+  def test_func(self):
+      post = Post.objects.get(id = self.kwargs['pk'])
+      return post.author == self.request.user
 
 class Index(TemplateView):
   template_name = 'myapp/index.html'
@@ -20,23 +27,31 @@ class Index(TemplateView):
     }
     return context
 
-class PostCreate(CreateView):
+class PostCreate(LoginRequiredMixin, CreateView):
   model = Post
   form_class = PostForm
   success_url = reverse_lazy('myapp:index')
 
+  def form_valid(self, form):
+      form.instance.author_id = self.request.user.id
+      return super(PostCreate, self).form.valid(form)
+
+  def get_success_url(self):
+    message.success(self.request, 'Postを登録しました。')
+    return resolve_url('myapp:index')
+
 class PostDetail(DetailView):
       model = Post
 
-class PostUpdate(UpdateView):
+class PostUpdate(OnlyMyPostMixin,UpdateView):
   model = Post
   form_class = PostForm
 
   def get_success_url(self):
-        messages.info(self.request, '投稿内容を更新しました。')
-        return resolve_url('myapp:post_detail', pk=self.kwargs['pk'])
+      messages.info(self.request, '投稿内容を更新しました。')
+      return resolve_url('myapp:post_detail', pk=self.kwargs['pk'])
 
-class PostDelete(DeleteView):
+class PostDelete(OnlyMyPostMixin,DeleteView):
   model = Post
 
   def get_success_url(self):
@@ -57,13 +72,13 @@ class Logout(LogoutView):
   template_name = 'myapp/logout.html'
 
 class SignUp(CreateView):
-      form_class = SignUpForm
-      template_name = 'myapp/signup.html'
-      success_url = reverse_lazy('myapp:index')
+  form_class = SignUpForm
+  template_name = 'myapp/signup.html'
+  success_url = reverse_lazy('myapp:index')
 
-      def form_valid(self, form):
-            user = form.save()
-            login(self.reqest, user)
-            self.object = user
-            message.info(self.request, 'ユーザー登録をしました。')
-            return HttpResponseRedirect(self.get_seccess_url())
+  def form_valid(self, form):
+    user = form.save()
+    login(self.request, user)
+    self.object = user
+    messages.info(self.request, 'ユーザー登録をしました。')
+    return HttpResponseRedirect(self.get_success_url())
