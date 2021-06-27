@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from .forms import PostForm, LoginForm, SignUpForm
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth import login
+
 
 class Index(TemplateView):
   template_name = 'myapp/index.html'
@@ -60,5 +62,8 @@ class SignUp(CreateView):
       success_url = reverse_lazy('myapp:index')
 
       def form_valid(self, form):
+            user = form.save()
+            login(self.reqest, user)
+            self.object = user
             message.info(self.request, 'ユーザー登録をしました。')
             return HttpResponseRedirect(self.get_seccess_url())
