@@ -1,13 +1,14 @@
-from django.shortcuts import render, resolve_url
+from django.shortcuts import render, resolve_url, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView, CreateView, DetailView, UpdateView, DeleteView, ListView
-from .models import Post
+from .models import Post, Like
 from django.urls import reverse_lazy
 from .forms import PostForm, LoginForm, SignUpForm
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
 
 
 class OnlyMyPostMixin(UserPassesTestMixin):
@@ -82,3 +83,19 @@ class SignUp(CreateView):
     self.object = user
     messages.info(self.request, 'ユーザー登録をしました。')
     return HttpResponseRedirect(self.get_success_url())
+
+@login_required
+def Like_add(request, post_id):
+  post = Post.objects.get(id = post_id)
+  is_liked = Like.objects.filter(user = request.user, post = post_id).count()
+  if is_liked > 0:
+        messages.info(request, 'すでにお気に入りに追加済みです。')
+        return redirect('myapp:post_detail', post.id)
+
+  like = Like()
+  like.user = request.user
+  like.post = post
+  like.save()
+
+  messages.success(request, "お気に入りに追加しました!")
+  return redirect('myapp:post_detail', post.id)
