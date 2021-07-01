@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Like
+from .models import Post, Like, Category
 
 
 @admin.register(Post)
@@ -10,5 +10,10 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Like)
 class LikeAdmin(admin.ModelAdmin):
-  like_display = ('id', 'user', 'post')
-  like_display_links = ('post',)
+  list_display = ('id', 'user', 'post')
+  list_display_links = ('post',)
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+  list_display = ('id', 'name')
+  list_display_links = ('name',)
