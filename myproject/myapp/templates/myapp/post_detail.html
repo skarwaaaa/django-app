@@ -7,8 +7,11 @@
         <br>
         <br>
         <div class="card">
-
+            {% if object.thumbnail %}
+            <img src="{{ object.thumbnail.url }}" class="card-img-top" alt="{{ object.title }}">
+            {% else %}
             <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" class="card-img-top" alt="..."/>
+            {% endif %}
             <div class="card-body">
                 <h5 class="card-title">{{ object.title }}</h5>
                 <p class="card-text">{{ object.content }}</p>

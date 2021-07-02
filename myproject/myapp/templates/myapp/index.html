@@ -13,11 +13,15 @@
         {% for item in post_list %}
     <div class="col-md-4">
       <div class="card h-100">
-        <img
-        src="https://mdbootstrap.com/img/new/standard/city/043.jpg"
-        class="card-img-top"
-        alt="..."
-        />
+        {% if item.thumbnail %}
+        <img class="card-img-top" src="{{ item.thumbnail.url }}" alt="{{ item.title }}">
+        {% else %}
+        <img src="https://mdbootstrap.com/img/new/standard/city/043.jpg" class="card-img-top" alt="{{ item.title }}">
+        {% endif %}
+        <a href="{% url 'myapp:post_detail' item.id %}">
+          <div class="mask rgba-white-slight"></div>
+        </a>
+
         <div class="card-body">
           <h5 class="card-title">{{ item.title }}<small>{{ item.author }}</small></h5>
           <p>{{ item.category }}</p>
