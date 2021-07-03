@@ -26,7 +26,7 @@
           <h5 class="card-title">{{ item.title }}<small>{{ item.author }}</small></h5>
           <p>{{ item.category }}</p>
           <p class="card-text">
-            {{ item.content }}
+            {{ item.content | safe| truncatechars_html:30 }}
           </p>
           <a href="{% url 'myapp:post_detail' item.id %}" type="button" class="btn btn-light-blue btn-md">もっと読む</a>
         </div>
