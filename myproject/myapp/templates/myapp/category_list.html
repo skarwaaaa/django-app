@@ -6,12 +6,27 @@
         <br>
         <h2>Category List</h2>
         <br>
-    {% for item in category_list %}
-    <a href="{% url 'myapp:category_detail' item.name_en %}">{{ item.name }}</a><br><br>
-        {% endfor %}
-        <br>
     </div>
-        
 </div>
+
+<div class="row">
+    {% for category in category_list %}
+    <div class="col-md-4">
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title"><a href="{% url 'myapp:category_detail' category.name_en %}">{{ category.name }}</a></h4>
+                <hr>
+                {% for post in category.post_set.all|slice:":5" %}
+                <p><a href="{% url 'myapp:post_detail' post.id %}" style="color:black;">{{ post.title }}</a></p>
+                {% endfor %}
+                <br>
+                <a href="{% url 'myapp:category_detail' category.name_en %}">このカテゴリーの記事をもっと見る</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<br>
 
 {% endblock %}
