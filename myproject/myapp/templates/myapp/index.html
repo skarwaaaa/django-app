@@ -28,7 +28,7 @@
           <p class="card-text">
             {{ item.content | safe| truncatechars_html:30 }}
           </p>
-          <a href="{% url 'myapp:post_detail' item.id %}" type="button" class="btn btn-light-blue btn-md">もっと読む</a>
+          <a href="{% url 'myapp:post_detail' item.id %}" type="button" class="btn btn-blue btn-md">もっと読む</a>
         </div>
 
       </div>

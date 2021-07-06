@@ -17,8 +17,11 @@
                 <p class="card-text">{{ object.content | safe | linebreaksbr | urlize }}</p>
                 <a class="btn" href="{% url 'myapp:like_add' object.pk%}" style="background-color: #FF6699; color: white;">お気に入りに入れる</a>
                 <hr>
+                <a href="javascript:void(0);" onclick="window.history.back();" class="btn btn-outline-dark">戻る</a>
+                {% if object.author == request.user %}
                 <a href="{% url 'myapp:post_update' object.pk %}" class="btn btn-primary">更新</a>
                 <a href="{% url 'myapp:post_delete' object.pk %}" class="btn btn-danger">削除</a>
+                {% endif %}
             </div>
             
         </div>
