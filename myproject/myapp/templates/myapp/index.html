@@ -12,30 +12,38 @@
   <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for item in post_list %}
     <div class="col-md-4">
+
       <div class="card h-100">
         {% if item.thumbnail %}
         <img class="card-img-top" src="{{ item.thumbnail.url }}" alt="{{ item.title }}">
         {% else %}
-        <img src="https://mdbootstrap.com/img/new/standard/city/043.jpg" class="card-img-top" alt="{{ item.title }}">
+        <img src="/Users/sunagawahiroki/Desktop/udemy/myproject/media/images/no_image_logo.png" class="card-img-top" alt="{{ item.title }}">
         {% endif %}
         <a href="{% url 'myapp:post_detail' item.id %}">
           <div class="mask rgba-white-slight"></div>
         </a>
 
         <div class="card-body">
-          <h5 class="card-title">{{ item.title }}<small>{{ item.author }}</small></h5>
+
+          <h5 class="card-title">{{ item.title }}</h5>
           <p>{{ item.category }}</p>
-          <p class="card-text">
-            {{ item.content | safe| truncatechars_html:30 }}
-          </p>
+          <p class="card-text">{{ item.content | safe| truncatechars_html:30 }}</p>
+          <br>
           <a href="{% url 'myapp:post_detail' item.id %}" type="button" class="btn btn-blue btn-md">もっと読む</a>
+          <i class="fas fa-heart" style="color:pink;"></i>&nbsp;{{ item.like_count }}
         </div>
+          <div class="card-footer text-muted text-center mt-4">
+            <small>By&nbsp;{{ item.author }}&nbsp;at {{ item.created_at.date }}</small>
+          </div>
 
       </div>
     </div>
 
     {% endfor %}
   </div>
-
+  <br>
+  <a class="btn btn-outline-primary" data-mdb-ripple-color="dark" href="{% url 'myapp:post_list' %}">全ての記事を見る</a>
+  <br>
+  <br>
 <!-- End your project here-->
 {% endblock %}
