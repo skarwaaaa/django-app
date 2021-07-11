@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 class Category(models.Model):
   name = models.CharField('カテゴリー名', max_length=50)
-  name_en = models.CharField('カテゴリ名英語', max_length=10)
+  name_en = models.CharField('カテゴリ名英語', max_length=25)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
 
@@ -22,6 +22,10 @@ class Post(models.Model):
   thumbnail = models.ImageField(upload_to='images/', blank=True)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
+
+  def like_count(self):
+      n = Like.objects.filter(post = self).count()
+      return n 
 
   def __str__(self):
       return self.title
